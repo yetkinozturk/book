@@ -23,6 +23,7 @@
         prologue.html
         records.html
         runtime-memory-layout.html
+        testing.html
         variables-and-functions.html
         variants.html))
 
@@ -139,6 +140,11 @@
 (rule
   (targets runtime-memory-layout.html)
   (deps    runtime-memory-layout/README.md)
+  (action  (run mdx output %{deps} -o %{targets})))
+
+(rule
+  (targets testing.html)
+  (deps    testing/README.md)
   (action  (run mdx output %{deps} -o %{targets})))
 
 (rule
