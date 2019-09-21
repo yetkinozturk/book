@@ -14,7 +14,7 @@ assume you're using `utop`, but the ordinary toplevel should mostly work
 fine.
 
 ::: {data-type=note}
-## `Base`, `Core` and `Core_kernel`
+##### `Base`, `Core` and `Core_kernel`
 
 `Base` is one of a family of three standard library replacements, each with
 different use-cases, each building on the last. Here's a quick summary.
