@@ -55,7 +55,7 @@ that the compiler will warn us if we miss a color:
 ```ocaml env=main
 # let basic_color_to_int = function
     | Black -> 0 | Red     -> 1 | Green -> 2 | Yellow -> 3
-  | Blue  -> 4 | Magenta -> 5 | Cyan  -> 6 | White  -> 7
+    | Blue  -> 4 | Magenta -> 5 | Cyan  -> 6 | White  -> 7
 val basic_color_to_int : basic_color -> int = <fun>
 # List.map ~f:basic_color_to_int [Blue;Red]
 - : int list = [4; 1]
@@ -101,8 +101,8 @@ separated by `*`s:
 type weight = Regular | Bold
 # type color =
     | Basic of basic_color * weight (* basic colors, regular and bold *)
-    | RGB   of int * int * int       (* 6x6x6 color cube *)
-    | Gray  of int                   (* 24 grayscale levels *)
+    | RGB   of int * int * int      (* 6x6x6 color cube *)
+    | Gray  of int                  (* 24 grayscale levels *)
 type color =
     Basic of basic_color * weight
   | RGB of int * int * int
@@ -122,7 +122,7 @@ each tag:
       let base = match weight with Bold -> 8 | Regular -> 0 in
       base + basic_color_to_int basic_color
     | RGB (r,g,b) -> 16 + b + g * 6 + r * 36
-  | Gray i -> 232 + i
+    | Gray i -> 232 + i
 val color_to_int : color -> int = <fun>
 ```
 
@@ -161,7 +161,7 @@ constructor.
 # let purple = (200,0,200)
 val purple : int * int * int = (200, 0, 200)
 # RGB purple
-Characters 0-10:
+Line 1, characters 1-11:
 Error: The constructor RGB expects 3 argument(s),
        but is applied here to 1 argument(s)
 ```
@@ -192,11 +192,11 @@ get the same behavior we got with the `RGB` constructor.
 # type untupled = Untupled of int * int
 type untupled = Untupled of int * int
 # let of_tuple x = Untupled x
-Characters 17-27:
+Line 1, characters 18-28:
 Error: The constructor Untupled expects 2 argument(s),
        but is applied here to 1 argument(s)
 # let to_tuple (Untupled x) = x
-Characters 13-25:
+Line 1, characters 14-26:
 Error: The constructor Untupled expects 2 argument(s),
        but is applied here to 1 argument(s)
 ```
@@ -260,8 +260,8 @@ discrepancy:
       let base = match weight with Bold -> 8 | Regular -> 0 in
       base + basic_color_to_int basic_color
     | RGB (r,g,b) -> 16 + b + g * 6 + r * 36
-  | Gray i -> 232 + i
-Characters 40-60:
+    | Gray i -> 232 + i
+Line 2, characters 13-33:
 Error: This pattern matches values of type 'a * 'b
        but a pattern was expected which matches values of type basic_color
 ```
@@ -274,8 +274,8 @@ problem, which is that we haven't handled the new `Bold` tag:
 # let color_to_int = function
     | Basic basic_color -> basic_color_to_int basic_color
     | RGB (r,g,b) -> 16 + b + g * 6 + r * 36
-  | Gray i -> 232 + i
-Characters 19-152:
+    | Gray i -> 232 + i
+Line 1, characters 20-155:
 Warning 8: this pattern-matching is not exhaustive.
 Here is an example of a case that is not matched:
 Bold _
@@ -289,7 +289,7 @@ Fixing this now leads us to the correct implementation:
     | Basic basic_color -> basic_color_to_int basic_color
     | Bold  basic_color -> 8 + basic_color_to_int basic_color
     | RGB (r,g,b) -> 16 + b + g * 6 + r * 36
-  | Gray i -> 232 + i
+    | Gray i -> 232 + i
 val color_to_int : color -> int = <fun>
 ```
 
@@ -310,8 +310,8 @@ We might have written the function as follows: [exhaustion checks]{.idx}
     | Basic (basic_color,weight) ->
       let base = match weight with Bold -> 8 | Regular -> 0 in
       base + basic_color_to_int basic_color
-  | _ -> basic_color_to_int White
-Characters 50-70:
+    | _ -> basic_color_to_int White
+Line 2, characters 13-33:
 Error: This pattern matches values of type 'a * 'b
        but a pattern was expected which matches values of type basic_color
 ```
@@ -322,7 +322,7 @@ this.
 ```ocaml env=catch_all
 # let oldschool_color_to_int = function
     | Basic basic_color -> basic_color_to_int basic_color
-  | _ -> basic_color_to_int White
+    | _ -> basic_color_to_int White
 val oldschool_color_to_int : color -> int = <fun>
 ```
 
@@ -594,7 +594,7 @@ will reject code that tries to do so.
 # let get_logon_contents = function
     | Logon m -> Some m
     | _ -> None
-Characters 56-57:
+Line 2, characters 23-24:
 Error: This form is not allowed as the type of the inlined record could escape.
 ```
 
@@ -822,7 +822,7 @@ The type system will complain if it sees incompatible uses of the same tag:
 # let five = `Int "five"
 val five : [> `Int of string ] = `Int "five"
 # [three; four; five]
-Characters 14-18:
+Line 1, characters 15-19:
 Error: This expression has type [> `Int of string ]
        but an expression was expected of type
          [> `Float of float | `Int of int ]
@@ -868,7 +868,7 @@ types/upper/lower bounds of]{.idx}
 # let is_positive = function
     | `Int   x -> Ok (x > 0)
     | `Float x -> Ok Float.(x > 0.)
-  | `Not_a_number -> Error "not a number"
+    | `Not_a_number -> Error "not a number"
 val is_positive :
   [< `Float of float | `Int of int | `Not_a_number ] -> (bool, string) result =
   <fun>
@@ -913,7 +913,7 @@ function as follows.
 # let extended_color_to_int = function
     | RGBA (r,g,b,a) -> 256 + a + b * 6 + g * 36 + r * 216
     | (Basic _ | RGB _ | Gray _) as color -> color_to_int color
-Characters 154-159:
+Line 3, characters 59-64:
 Error: This expression has type extended_color
        but an expression was expected of type color
 ```
@@ -993,7 +993,7 @@ the cases, the type is no longer narrowed, and so compilation fails:
 # let extended_color_to_int = function
     | `RGBA (r,g,b,a) -> 256 + a + b * 6 + g * 36 + r * 216
     | color -> color_to_int color
-Characters 125-130:
+Line 3, characters 29-34:
 Error: This expression has type [> `RGBA of int * int * int * int ]
        but an expression was expected of type
          [< `Basic of
@@ -1149,6 +1149,8 @@ In particular, the compiler will complain that the `` `Grey`` case is unused:
 $ dune build terminal_color.exe
 ...
 File "terminal_color.ml", line 29, characters 25-32:
+29 |   | (`Basic _ | `RGB _ | `Grey _) as color -> color_to_int color
+                              ^^^^^^^
 Error: This pattern matches values of type [? `Grey of 'a ]
        but a pattern was expected which matches values of type extended_color
        The second variant type does not allow tag(s) `Grey

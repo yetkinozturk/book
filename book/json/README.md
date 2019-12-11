@@ -488,7 +488,7 @@ mistakenly include a single value instead of a list of keys:
 val person : [> `Assoc of string * [> `String of string ] ] =
   `Assoc ("name", `String "Anil")
 # Yojson.Basic.pretty_to_string person
-Characters 30-36:
+Line 1, characters 31-37:
 Error: This expression has type
          [> `Assoc of string * [> `String of string ] ]
        but an expression was expected of type Yojson.Basic.t
@@ -503,7 +503,7 @@ about your intentions:
 ```ocaml env=build_json
 # let (person : Yojson.Basic.t) =
   `Assoc ("name", `String "Anil")
-Characters 41-65:
+Line 2, characters 10-34:
 Error: This expression has type 'a * 'b
        but an expression was expected of type (string * Yojson.Basic.t) list
 ```
@@ -889,17 +889,17 @@ and uses these modules to output a one-line summary. Our following example
 does just that.
 
 The following code calls the cURL command-line utility by using the
-`Core_extended.Shell` interface to run an external command and capture its
+`Shell` interface to run an external command and capture its
 output. You'll need to ensure that you have cURL installed on your system
 before running the example. You might also need to
-`opam install core_extended` if you haven't installed it previously:
+`opam install shell` if you haven't installed it previously:
 
 ```ocaml file=github_org_info/github_org_info.ml
 open Core
 
 let print_org file () =
   let url = sprintf "https://api.github.com/orgs/%s" file in
-  Core_extended.Shell.run_full "curl" [url]
+  Shell.run_full "curl" [url]
   |> Github_org_j.org_of_string
   |> fun org ->
   let open Github_org_t in
