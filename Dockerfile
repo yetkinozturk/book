@@ -4,7 +4,7 @@ ENV OPAMYES=1
 WORKDIR /home/opam/src
 
 # update opam
-RUN opam switch 4.08
+RUN opam switch 4.09
 RUN git -C /home/opam/opam-repository pull origin master && opam update -uy
 
 # install non-OCaml dependencies
@@ -14,7 +14,7 @@ RUN opam install dune=2.0.0
 
 #install pandoc
 WORKDIR /tmp
-RUN curl -OL https://github.com/jgm/pandoc/releases/download/2.1.3/pandoc-2.1.3-1-amd64.deb && sudo dpkg -i pandoc-2.1.3-1-amd64.deb
+RUN curl -OL https://github.com/jgm/pandoc/releases/download/2.9/pandoc-2.9-1-amd64.deb && sudo dpkg -i pandoc-2.9-1-amd64.deb
 WORKDIR /home/opam/src
 
 #install pdflatex
